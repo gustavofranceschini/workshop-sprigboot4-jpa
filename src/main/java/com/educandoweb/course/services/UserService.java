@@ -27,4 +27,8 @@ public class UserService {
 	public User insert(User obj) {
 		return reposity.save(obj);
 	}
+	
+	public void delete(Long id) {		
+		reposity.deleteById(id);
+	}
 }
