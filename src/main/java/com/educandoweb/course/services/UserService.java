@@ -17,33 +17,33 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository reposity;
-	
-	public List<User> findAll(){
+
+	public List<User> findAll() {
 		return reposity.findAll();
 	}
-	
+
 	public User findById(Long id) {
 		Optional<User> obj = reposity.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
-	
+
 	public User insert(User obj) {
 		return reposity.save(obj);
 	}
-	
-	public void delete(Long id) {	
+
+	public void delete(Long id) {
 		try {
 			reposity.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
-		}		
+		}
 	}
-	
+
 	public User update(Long id, User obj) {
 		try {
 			User entity = reposity.getReferenceById(id);
@@ -52,13 +52,11 @@ public class UserService {
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}
-		
-		
 	}
 
 	private void updateData(User entity, User obj) {
 		entity.setName(obj.getName());
 		entity.setEmail(obj.getEmail());
-		entity.setPhone(obj.getPhone());		
+		entity.setPhone(obj.getPhone());
 	}
 }
